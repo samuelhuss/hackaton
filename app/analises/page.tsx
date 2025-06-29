@@ -8,6 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import Image from "next/image";
 
 export default function AnalisesPage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -112,13 +113,15 @@ export default function AnalisesPage() {
           <div className="p-0">
             <AspectRatio ratio={16 / 9} className="w-full bg-gray-100 rounded-b-xl flex items-center justify-center">
               {imageUrl ? (
-                <img
+                <Image
                   src={imageUrl}
                   alt="Preview da imagem"
+                  fill
                   className="object-contain w-full h-full rounded-b-xl"
+                  unoptimized
                 />
               ) : (
-                <span className="text-muted-foreground text-sm text-center px-4">Clique em "Adicionar" para fazer upload da arquitetura.</span>
+                <span className="text-muted-foreground text-sm text-center px-4">Clique em &quot;Adicionar&quot; para fazer upload da arquitetura.</span>
               )}
             </AspectRatio>
             {/* Loader e mensagem de progresso sobrepostos durante o envio/análise */}

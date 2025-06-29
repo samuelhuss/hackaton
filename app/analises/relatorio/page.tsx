@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Download, ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import Image from "next/image";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 
 export default function RelatorioPage() {
   // Estado para armazenar a imagem recuperada do localStorage
@@ -66,15 +68,23 @@ export default function RelatorioPage() {
         <p className="text-muted-foreground mb-8 text-sm">Gerado em {new Date().toLocaleDateString("pt-BR")} &bull; Análise real</p>
         {/* Imagem centralizada */}
         {imagem && (
-          <div className="flex flex-col items-center mb-8">
-            <img src={imagem} alt="Imagem da arquitetura" className="max-h-80 object-contain" />
-            <span className="text-xs text-muted-foreground mt-2">Imagem enviada pelo usuário</span>
-          </div>
+          <>
+            <AspectRatio ratio={16 / 9} className="w-full mb-2 rounded-lg overflow-hidden">
+              <Image
+                src={imagem}
+                alt="Imagem da arquitetura"
+                fill
+                className="object-contain"
+                unoptimized
+              />
+            </AspectRatio>
+            <span className="text-xs text-muted-foreground mb-8 block text-center">Imagem enviada pelo usuário</span>
+          </>
         )}
         {/* Componentes identificados */}
         <section className="mb-8">
           <h3 className="text-sm leading-none font-medium mb-2">Componentes identificados</h3>
-          <ul className="list-disc list-inside text-sm">
+          <ul className="list-disc list-inside leading-none  text-muted-foreground text-sm">
             {relatorio.componentes?.map((comp: string) => (
               <li key={comp}>{comp}</li>
             ))}
