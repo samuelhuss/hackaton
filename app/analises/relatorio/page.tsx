@@ -9,6 +9,7 @@ import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Table, TableHeader, TableBody, TableHead, TableRow, TableCell } from "@/components/ui/table";
 import { toast } from "sonner";
 import ReactMarkdown from "react-markdown";
+import { Lens } from "@/components/magicui/lens";
 
 export default function RelatorioPage() {
   // Estado para armazenar a imagem recuperada do localStorage
@@ -102,15 +103,17 @@ export default function RelatorioPage() {
         {/* Imagem centralizada */}
         {imagem && (
           <>
-            <AspectRatio ratio={16 / 9} className="w-full rounded-lg overflow-hidden">
-              <Image
-                src={imagem}
-                alt="Imagem da arquitetura"
-                fill
-                className="object-contain"
-                unoptimized
-              />
-            </AspectRatio>
+            <Lens>
+              <AspectRatio ratio={16 / 9} className="w-full rounded-lg overflow-hidden">
+                <Image
+                  src={imagem}
+                  alt="Imagem da arquitetura"
+                  fill
+                  className="object-contain"
+                  unoptimized
+                />
+              </AspectRatio>
+            </Lens>
             <span className="text-xs text-muted-foreground mb-4 block text-center">Imagem enviada pelo usuário</span>
           </>
         )}
@@ -202,5 +205,5 @@ export default function RelatorioPage() {
       </article>
     </main>
   );
-} 
+}
 

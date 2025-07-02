@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import Image from "next/image";
+import { BorderBeam } from "@/components/magicui/border-beam";
 
 export default function AnalisesPage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -21,8 +22,9 @@ export default function AnalisesPage() {
 
   // Exemplos de imagens (adicione os caminhos das imagens de exemplo em /public)
   const exemplos = [
+    "/1.jpg",
     "/aws-diagram.png",
-    "/aws-2.png",
+    
     // "/globe.svg",
     // Adicione mais exemplos aqui
   ];
@@ -199,6 +201,8 @@ export default function AnalisesPage() {
                 <span className="text-muted-foreground text-xs text-center px-4">Clique em &quot;Adicionar&quot; para fazer upload da arquitetura ou selecione um exemplo.</span>
               )}
             </AspectRatio>
+            <BorderBeam duration={8} size={200} />
+
             {/* Loader e mensagem de progresso sobrepostos durante o envio/análise */}
             {isLoading && (
               <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/80 dark:bg-black/60 z-20 rounded-b-xl">

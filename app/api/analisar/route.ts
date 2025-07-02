@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
   // Sanitiza os componentes para evitar blocos de código, aspas e outros caracteres
   const componentesSanitizados = componentes.map(c => String(c).replace(/[`"'\-]+/g, '').trim());
   // Prompt ajustado para respostas mais curtas, em Markdown, com introdução, mas sem títulos
-  const prompt = `Gere um relatório STRIDE em português para a seguinte arquitetura de software, considerando os componentes abaixo. O relatório deve ser objetivo, com no máximo 2 frases curtas para cada ameaça STRIDE, focando apenas nos principais riscos e recomendações. Responda apenas com o relatório em Markdown, nao use titulos e nao gere uma introdução. Use listas, negrito e outros recursos de Markdown quando apropriado. Não inclua frases como 'Aqui está o relatório'.\nComponentes:\n- ${componentesSanitizados.join("\n- ")}`;
+  const prompt = `Gere um relatório STRIDE em português para a seguinte arquitetura de software, considerando os componentes abaixo. O relatório deve ser objetivo, com no máximo 2 frases curtas para cada ameaça STRIDE, focando apenas nos principais riscos e recomendações. Responda apenas com o relatório em Markdown para toda a arquitetura, nao por componente, nao use titulos e nao gere uma introdução. Use listas, negrito e outros recursos de Markdown quando apropriado. Não inclua frases como 'Aqui está o relatório' ou 'json'.\nComponentes:\n- ${componentesSanitizados.join("\n- ")}`;
   // Log do prompt enviado para debug
   console.log("[LOG] Prompt enviado ao Gemini:\n", prompt);
 
