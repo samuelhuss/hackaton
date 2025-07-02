@@ -64,7 +64,7 @@ export async function POST(req: NextRequest) {
     // Log detalhado da resposta do Gemini para debug
     console.log("[LOG] Resposta do Gemini:", JSON.stringify(data, null, 2));
     // Extrai a resposta do Gemini
-    let resposta = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+    const resposta = data?.candidates?.[0]?.content?.parts?.[0]?.text;
     if (!resposta || typeof resposta !== "string" || resposta.trim().length === 0) {
       console.error("[ERRO] Gemini não retornou texto na resposta.");
       return NextResponse.json({ erro: "O modelo Gemini não retornou texto para o relatório. Tente novamente ou ajuste o prompt." }, { status: 500 });
