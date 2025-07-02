@@ -17,6 +17,15 @@ export default function AnalisesPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [erro, setErro] = useState<string | null>(null);
   const [status, setStatus] = useState<"analisando" | "identificando" | "gerando" | null>(null);
+  const [exemploSelecionado, setExemploSelecionado] = useState(false);
+
+  // Exemplos de imagens (adicione os caminhos das imagens de exemplo em /public)
+  const exemplos = [
+    "/aws-diagram.png",
+    "/aws-2.png",
+    // "/globe.svg",
+    // Adicione mais exemplos aqui
+  ];
 
   function handleButtonClick() {
     fileInputRef.current?.click();
@@ -49,19 +58,70 @@ export default function AnalisesPage() {
     });
   }
 
+  // Função para carregar exemplo como base64
+  function handleExemploClick(src: string) {
+    setImageUrl(src);
+    setExemploSelecionado(true);
+    fetch(src)
+      .then(res => res.blob())
+      .then(blob => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          localStorage.setItem("analiseImagem", reader.result as string);
+        };
+        reader.readAsDataURL(blob);
+      });
+  }
+
   // Função chamada ao clicar em "Enviar"
   async function handleSendClick() {
     setErro(null);
-    const file = fileInputRef.current?.files?.[0];
+    let file = fileInputRef.current?.files?.[0];
+
+    // Se for exemplo, converte base64 do localStorage para Blob/File
+    if (!file && exemploSelecionado) {
+      const base64 = localStorage.getItem("analiseImagem");
+      if (base64) {
+        const res = await fetch(base64);
+        const blob = await res.blob();
+        file = new File([blob], "exemplo.png", { type: blob.type });
+      }
+    }
+
     if (file) {
       setIsLoading(true);
+      setStatus("analisando");
       try {
-        // Envia a imagem para a API real
-        const formData = new FormData();
-        formData.append('imagem', file);
+        // 1) Envia a imagem para o endpoint de identificação de componentes
+        const formDataComponentes = new FormData();
+        formDataComponentes.append('imagem', file);
+        const componentesRes = await fetch('/api/componentes', {
+          method: 'POST',
+          body: formDataComponentes,
+        });
+        const componentesJson = await componentesRes.json();
+        // Log detalhado da resposta dos componentes
+        console.log("[LOG] Componentes identificados:", componentesJson);
+        // Exibe toast informativo
+        if (!componentesJson.componentes || componentesJson.componentes.length === 0) {
+          throw new Error('Nenhum componente identificado.');
+        }
+        // Remove qualquer item que contenha '```', 'json' ou seja 'AWS Cloud' (bloco de código ou genérico)
+        const componentesLimpos = componentesJson.componentes.filter((c: string) => {
+          if (typeof c !== 'string') return false;
+          if (c.includes('```')) return false;
+          if (/json/i.test(c)) return false;
+          if (c.trim().toLowerCase() === 'aws cloud') return false;
+          return true;
+        });
+        localStorage.setItem('componentesIdentificados', JSON.stringify(componentesLimpos));
+        setStatus("gerando");
+        // 2) Envia a lista de componentes para o endpoint de análise
+        const formDataAnalise = new FormData();
+        formDataAnalise.append('componentes', JSON.stringify(componentesJson.componentes));
         const response = await fetch('/api/analisar', {
           method: 'POST',
-          body: formData,
+          body: formDataAnalise,
         });
         if (!response.ok) throw new Error('Erro na análise');
         const relatorio = await response.json();
@@ -70,10 +130,11 @@ export default function AnalisesPage() {
         toast.success("Relatório gerado com sucesso.");
         router.push("/analises/relatorio");
       } catch (e) {
-        setErro("Erro ao processar a imagem. Tente novamente.");
-        toast.error("Erro ao processar a imagem. Tente novamente.");
+        setErro("Erro ao processar a imagem ou gerar relatório. Tente novamente.");
+        toast.error("Erro ao processar a imagem ou gerar relatório. Tente novamente.");
       } finally {
         setIsLoading(false);
+        setStatus(null);
       }
     } else {
       setErro("Por favor, selecione uma imagem antes de enviar.");
@@ -85,9 +146,9 @@ export default function AnalisesPage() {
       {/* Coluna da esquerda: apenas título e descrição, centralizados verticalmente */}
       <section className="md:w-1/2 flex flex-col items-end justify-center min-h-screen py-8 px-4">
         <div className="max-w-xs text-left">
-        <h4 className="text-sm leading-none font-medium mb-4">Análise de Arquitetura</h4>
+        <h4 className="text-sm leading-none font-medium mb-4">Análise de Arquitetura AWS</h4>
           <p className="text-muted-foreground text-sm leading-relaxed">
-            Faça upload de uma imagem de arquitetura de software para gerar um relatório STRIDE automaticamente. O sistema irá identificar os componentes e ameaças de segurança.
+            Faça upload de uma imagem de arquitetura <b>AWS</b> para gerar um relatório STRIDE automaticamente. O sistema foi treinado e funciona apenas para diagramas AWS, identificando componentes e ameaças de segurança.
           </p>
         </div>
       </section>
@@ -101,7 +162,21 @@ export default function AnalisesPage() {
       <section className="md:w-1/2 flex flex-col items-start justify-center min-h-screen py-8 gap-6 w-full">
         {/* Input file escondido */}
         {/* Área de upload drag & drop (simples) + Botão de enviar, lado a lado */}
-       
+        {exemplos.length > 0 && (
+          <div className="flex gap-2 mt-4 w-full max-w-md">
+            {exemplos.map((src) => (
+              <button
+                key={src}
+                type="button"
+                onClick={() => handleExemploClick(src)}
+                className="border rounded-lg overflow-hidden p-1 bg-muted hover:ring-2 ring-primary transition"
+                title="Usar este exemplo"
+              >
+                <Image src={src} alt="Exemplo" width={64} height={64} className="object-contain" unoptimized />
+              </button>
+            ))}
+          </div>
+        )}
         <div className="w-full max-w-md rounded-xl shadow-xl border bg-background p-0 overflow-hidden relative">
           {/* Barra superior estilo Mac */}
           <div className="flex items-center gap-2 h-8 px-4 bg-muted border-b">
@@ -121,14 +196,16 @@ export default function AnalisesPage() {
                   unoptimized
                 />
               ) : (
-                <span className="text-muted-foreground text-sm text-center px-4">Clique em &quot;Adicionar&quot; para fazer upload da arquitetura.</span>
+                <span className="text-muted-foreground text-xs text-center px-4">Clique em &quot;Adicionar&quot; para fazer upload da arquitetura ou selecione um exemplo.</span>
               )}
             </AspectRatio>
             {/* Loader e mensagem de progresso sobrepostos durante o envio/análise */}
             {isLoading && (
               <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/80 dark:bg-black/60 z-20 rounded-b-xl">
                 <Loader2 className="w-8 h-8 animate-spin mb-2 text-primary" />
-                <span className="text-base font-medium text-primary">Analisando imagem...</span>
+                <span className="text-base font-medium text-primary">
+                  {status === "gerando" ? "Gerando relatório..." : "Analisando imagem..."}
+                </span>
               </div>
             )}
           </div>
@@ -181,6 +258,8 @@ export default function AnalisesPage() {
             </Tooltip>
           </div>
         </TooltipProvider>
+        {/* Exemplos de imagens */}
+       
       </section>
     </main>
   );
