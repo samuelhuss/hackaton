@@ -1,36 +1,103 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Analisador de Arquiteturas AWS com STRIDE e IA
 
-## Getting Started
+Este projeto é uma aplicação web desenvolvida em **Next.js** com frontend moderno utilizando **shadcn/ui**, **Magic UI** e **Tailwind CSS**. O objetivo é identificar automaticamente componentes em diagramas de arquitetura AWS enviados pelo usuário, utilizando IA (Gemini 2.5 Flash), e gerar relatórios de análise de ameaças de segurança (STRIDE, LINDDUN, etc) de forma rápida, acessível e personalizável.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Funcionalidades
+
+- **Upload de Imagem de Arquitetura:** O usuário faz upload de um diagrama AWS (ou seleciona um exemplo).
+- **Identificação Automática de Componentes:** A imagem é analisada por IA (Gemini 2.5 Flash), que retorna os componentes presentes no diagrama.
+- **Revisão e Edição dos Componentes:** O usuário pode revisar, adicionar ou remover componentes detectados antes de gerar o relatório.
+- **Escolha da Metodologia de Análise:** O usuário pode escolher entre diferentes metodologias de análise de ameaças (STRIDE, LINDDUN, etc).
+- **Geração de Relatório:** O relatório é gerado de forma objetiva, com recomendações de segurança para cada ameaça, utilizando IA.
+- **Interface Moderna e Responsiva:** Utiliza shadcn/ui, Magic UI e Tailwind CSS, com suporte a modo escuro e acessibilidade.
+- **Arquitetura Limpa:** Separação clara entre lógica de apresentação, negócio e integração com IA.
+
+---
+
+## Como funciona o fluxo
+
+1. **Upload:** O usuário faz upload de uma imagem de arquitetura AWS.
+2. **Identificação:** A imagem é enviada para a API `/api/componentes`, que utiliza o Gemini 2.5 Flash para identificar os componentes presentes.
+3. **Revisão:** Os componentes identificados são exibidos em um modal, permitindo edição manual.
+4. **Escolha da Metodologia:** O usuário seleciona a metodologia de análise desejada (ex: STRIDE, LINDDUN) via Select.
+5. **Geração do Relatório:** Após confirmação, a lista de componentes e a metodologia escolhida são enviadas para a API `/api/analisar`, que gera um relatório objetivo e enxuto usando IA.
+6. **Visualização:** O relatório é exibido na interface, podendo ser salvo ou exportado.
+
+---
+
+## Tecnologias Utilizadas
+
+- **Next.js** (App Router)
+- **TypeScript**
+- **shadcn/ui** (componentes de UI acessíveis e modernos)
+- **Magic UI** (efeitos visuais e animações)
+- **Tailwind CSS** (estilização)
+- **Gemini 2.5 Flash (Google AI)** para análise de imagem e geração de texto
+- **Arquitetura modular por domínio** (`analises/`, `usuarios/`, `auth/`, etc)
+- **Clean Architecture** no frontend
+
+---
+
+## Como rodar o projeto
+
+1. **Instale as dependências:**
+   ```bash
+   cd frontend
+   npm install
+   ```
+
+2. **Configure a chave da API do Gemini:**
+   - Crie um arquivo `.env.local` na pasta `frontend` com:
+     ```
+     GEMINI_API_KEY=sua_chave_aqui
+     ```
+
+3. **Inicie o servidor de desenvolvimento:**
+   ```bash
+   npm run dev
+   ```
+
+4. **Acesse no navegador:**
+   - [http://localhost:3000](http://localhost:3000)
+
+---
+
+## Estrutura de Pastas
+
+```
+frontend/
+  app/
+    analises/         # Páginas e lógica de análise de arquitetura
+    api/              # Endpoints de backend (Next.js API routes)
+  components/
+    ui/               # Componentes de UI (shadcn/ui)
+    magicui/          # Efeitos visuais e animações (Magic UI)
+  lib/                # Funções utilitárias
+  public/             # Imagens e assets públicos
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Personalização e Extensões
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Adicionar novas metodologias:** Basta incluir no Select e ajustar o prompt enviado ao Gemini.
+- **Adicionar novos componentes de UI:** Use o CLI do shadcn/ui.
+- **Aprimorar prompts:** Edite os prompts nos endpoints para customizar o relatório.
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## Roadmap de Melhorias
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Exportação de relatórios (PDF, Markdown)
+- Histórico de análises
+- Suporte a múltiplos idiomas
+- Autenticação e multiusuário
+- Dashboard de métricas
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## Licença
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Este projeto é open-source e pode ser adaptado conforme sua necessidade.
