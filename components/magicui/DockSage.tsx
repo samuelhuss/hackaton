@@ -52,7 +52,7 @@ const DATA = {
     social: {
       GitHub: {
         name: "GitHub",
-        url: "https://github.com/seu-usuario/seu-repo",
+        url: "https://github.com/samuelhuss/hackaton",
         icon: Icons.github,
       },
       YouTube: {

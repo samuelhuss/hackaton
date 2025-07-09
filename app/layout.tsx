@@ -19,8 +19,8 @@ const geistMono = Geist_Mono({
 
 // Metadados da aplicação
 export const metadata: Metadata = {
-  title: "Plataforma de Upload de Imagens",
-  description: "Faça upload e gerencie suas imagens facilmente.",
+  title: "SAGE AI",
+  description: "Identifique componentes em diagramas de arquitetura com IA",
 };
 
 // Layout raiz da aplicação
