@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
             }
           },
           {
-            text: "Identifique todos os componentes de arquitetura de software presentes nesta imagem, não pegue os nomes que aparecem na imagem, apenas traga os nomes dos componentes da arquitetura. Responda apenas com uma lista em JSON, sem explicações."
+            text: "Identifique todos os componentes de arquitetura de software presentes nesta imagem, não pegue os nomes que aparecem na imagem, apenas traga os nomes dos componentes da arquitetura (de acordo com o determinado cloud provider ex AWS, Azure, GCP, etc). Responda apenas com uma lista em JSON, sem explicações."
           }
         ]
       }

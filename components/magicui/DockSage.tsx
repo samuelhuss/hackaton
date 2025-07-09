@@ -1,6 +1,6 @@
 "use client";
 
-import { HomeIcon, PencilIcon, MailIcon, FileSearch } from "lucide-react";
+import { HomeIcon, PencilIcon, MailIcon, FileSearch, BookIcon } from "lucide-react";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -46,6 +46,7 @@ const DATA = {
   navbar: [
     { href: "/", icon: HomeIcon, label: "Home" },
     { href: "/analises", icon: FileSearch, label: "Análises" },
+    { href: "/docs", icon: BookIcon, label: "Documentação" },
   ],
   contact: {
     social: {

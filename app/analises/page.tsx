@@ -24,6 +24,7 @@ export default function AnalisesPage() {
   const exemplos = [
     "/1.jpg",
     "/aws-diagram.png",
+    "/Azure.webp"
     
     // "/globe.svg",
     // Adicione mais exemplos aqui
