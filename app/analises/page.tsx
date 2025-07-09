@@ -148,9 +148,9 @@ export default function AnalisesPage() {
       {/* Coluna da esquerda: apenas título e descrição, centralizados verticalmente */}
       <section className="md:w-1/2 flex flex-col items-end justify-center min-h-screen py-8 px-4">
         <div className="max-w-xs text-left">
-        <h4 className="text-sm leading-none font-medium mb-4">Análise de Arquitetura AWS</h4>
+        <h4 className="text-sm leading-none font-medium mb-4">Análise de Arquitetura</h4>
           <p className="text-muted-foreground text-sm leading-relaxed">
-            Faça upload de uma imagem de arquitetura <b>AWS</b> para gerar um relatório STRIDE automaticamente. O sistema foi treinado e funciona apenas para diagramas AWS, identificando componentes e ameaças de segurança.
+            Faça upload de uma imagem de arquitetura para gerar um relatório STRIDE automaticamente. O sistema foi treinado e funciona para qualquer arquitetura, identificando componentes e ameaças de segurança.
           </p>
         </div>
       </section>

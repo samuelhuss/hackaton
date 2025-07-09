@@ -58,7 +58,7 @@ export default function Home() {
         <div className="w-full max-w-md flex flex-col gap-4 relative z-10">
           <h4 className="text-sm leading-none font-medium">O que é o SAGE?</h4>
           <p className="text-muted-foreground text-sm">
-            SAGE é uma ferramenta inteligente para análise de arquitetura de software AWS. Faça upload de diagramas, identifique automaticamente componentes, gere relatórios STRIDE e visualize ameaças de forma simples, rápida e visual.
+            SAGE é uma ferramenta inteligente para análise de arquitetura de software. Faça upload de diagramas, identifique automaticamente componentes, gere relatórios STRIDE e visualize ameaças de forma simples, rápida e visual.
           </p>
         </div>
       </section>
