@@ -57,7 +57,7 @@ const DATA = {
       },
       YouTube: {
         name: "YouTube",
-        url: "https://youtube.com/",
+        url: "https://www.youtube.com/watch?v=R1xjOnlCjZY",
         icon: Icons.youtube,
       },
      

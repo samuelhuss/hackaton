@@ -11,7 +11,6 @@ const GROUPS = [
     links: [
       { id: 'introducao', label: 'Introdução' },
       { id: 'visao-geral', label: 'Visão Geral' },
-      { id: 'funcionalidades', label: 'Funcionalidades' },
 
       { id: 'ml-experimentos', label: 'Experimentos ML' },
       { id: 'abordagem', label: 'Abordagem e Diferenciais' },

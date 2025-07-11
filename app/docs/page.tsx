@@ -7,6 +7,7 @@ import SidebarDocs from '@/components/ui/SidebarDocs'
 import { H1, H2, H3, H4, P, List, Lead, Muted } from '@/components/ui/typography'
 import HeroVideoDialog from '@/components/magicui/hero-video-dialog'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
+import { AspectRatio } from '@/components/ui/aspect-ratio'
 
 
 export default function DocsPage() {
@@ -40,12 +41,15 @@ export default function DocsPage() {
            <a href="https://github.com/samuelhuss/aws-architecture-model" target="_blank" rel="noopener noreferrer" className="inline-block">
             <Badge variant="secondary">Yolo Repo</Badge>
           </a> 
-          <a href="https://www.youtube.com/watch?v=fuaVpHtyBEo" target="_blank" rel="noopener noreferrer" className="inline-block">
+          <a href="https://www.youtube.com/watch?v=R1xjOnlCjZY" target="_blank" rel="noopener noreferrer" className="inline-block">
             <Badge variant="default">Ver vídeo</Badge>
           </a>
         </div>
-        <Muted className="mb-8">Aplicação web para identificar automaticamente componentes em diagramas de arquitetura usando IA (<TooltipProvider><Tooltip><TooltipTrigger asChild><span className="underline cursor-help">Gemini 2.5 Flash</span></TooltipTrigger><TooltipContent>Modelo de IA do Google para análise de imagem e geração de texto</TooltipContent></Tooltip></TooltipProvider>) e gerar relatórios de ameaças (<TooltipProvider><Tooltip><TooltipTrigger asChild><span className="underline cursor-help">STRIDE</span></TooltipTrigger><TooltipContent>Metodologia de análise de ameaças</TooltipContent></Tooltip></TooltipProvider>).</Muted>
 
+        <Muted className="mb-4">Aplicação web para identificar automaticamente componentes em diagramas de arquitetura usando IA (<TooltipProvider><Tooltip><TooltipTrigger asChild><span className="underline cursor-help">Gemini 2.5 Flash</span></TooltipTrigger><TooltipContent>Modelo de IA do Google para análise de imagem e geração de texto</TooltipContent></Tooltip></TooltipProvider>) e gerar relatórios de ameaças (<TooltipProvider><Tooltip><TooltipTrigger asChild><span className="underline cursor-help">STRIDE</span></TooltipTrigger><TooltipContent>Metodologia de análise de ameaças</TooltipContent></Tooltip></TooltipProvider>).</Muted>
+        <Muted className="mb-8">Para mais detalhes técnicos e instruções de uso, consulte o <b>README</b> de cada repositório.</Muted>
+        {/* Exemplo visual: imagem renderizada com AspectRatio */}
+      
         {/* Experimentos com Machine Learning */}
        
         {/* Seção de vídeo de apresentação */}
@@ -55,14 +59,14 @@ export default function DocsPage() {
               <HeroVideoDialog
                 className="block dark:hidden"
                 animationStyle="from-center"
-                videoSrc="https://www.youtube.com/embed/fuaVpHtyBEo?si=Yf--aNqsbZ9z9c0k"
+                videoSrc="https://www.youtube.com/embed/R1xjOnlCjZY"
                 thumbnailSrc="aws-diagram.png"
                 thumbnailAlt="Demonstração do projeto"
               />
               <HeroVideoDialog
                 className="hidden dark:block"
                 animationStyle="from-center"
-                videoSrc="https://www.youtube.com/embed/fuaVpHtyBEo?si=Yf--aNqsbZ9z9c0k"
+                videoSrc="https://www.youtube.com/embed/R1xjOnlCjZY"
                 thumbnailSrc="aws-diagram.png"
                 thumbnailAlt="Demonstração do projeto"
               />
@@ -79,16 +83,7 @@ export default function DocsPage() {
             Utilizamos IA para identificar automaticamente componentes, conexões e textos nos diagramas, permitindo análise de ameaças baseada na metodologias STRIDE.
           </P>
         </section>
-         {/* Funcionalidades */}
-         <section className="mb-12" id="funcionalidades">
-          <H4>Funcionalidades</H4>
-          <List>
-            <li><b>Upload de Imagem de Arquitetura:</b> O usuário faz upload de um diagrama (ou seleciona um exemplo).</li>
-            <li><b>Identificação Automática de Componentes:</b> A imagem é analisada por IA (Gemini 2.5 Flash), que retorna os componentes presentes no diagrama.</li>
-            <li><b>Geração de Relatório:</b> O relatório é gerado de forma objetiva, com recomendações de segurança para cada ameaça, utilizando IA.</li>
-            <li><b>Exportação:</b> Possibilidade de exportar o relatório (em breve: PDF, Markdown).</li>
-          </List>
-        </section>
+         
 
      
         <section className="mb-12" id="ml-experimentos">
@@ -137,9 +132,21 @@ export default function DocsPage() {
           </List>
         </section>
 
-        
-        {/* Engenharia de Prompt */}
-        <section className="mb-12" id="engenharia-prompt">
+        {/* Exemplo de uso: AspectRatio */}
+        <section className="mb-12" id="aspect-ratio">
+        <div className=" max-w-3xl justify-center border rounded-lg overflow-hidden ">
+          <div className="bg-muted">
+            <AspectRatio ratio={20/9} className='rounded-md'>
+              <img
+                src="/diagram-export-10-07-2025-23_42_37.png"
+                alt="Exemplo de diagrama"
+              />
+            </AspectRatio>
+          </div>
+        </div>
+        </section>
+         {/* Engenharia de Prompt */}
+         <section className="mb-12" id="engenharia-prompt">
           <H4>Engenharia de Prompt</H4>
           <P>
             A engenharia de prompt é fundamental para garantir que a IA compreenda corretamente o contexto do diagrama e gere relatórios relevantes. Os prompts são montados dinamicamente, levando em conta:
